@@ -27,10 +27,23 @@ Sodoku::Sodoku(int side_length, int box_size)
 {
     this->side_length = side_length;
     this->box_size = box_size;
+
     this->sodoku.reserve(side_length);
+    this->row_contains_arr.reserve(side_length);
+    this->col_contains_arr.reserve(side_length);
     for (int i = 0; i < side_length; i++) {
         this->sodoku[i].reserve(side_length);
+        this->row_contains_arr[i].assign(side_length + 1, false); // + 1 is so that index corresponds to values 1-9
+        this->col_contains_arr[i].assign(side_length + 1, false);
+    }
 
+    this->box_contains_arr.reserve(side_length / box_size);
+    for (int i = 0; i < box_size; i++) {
+        this->box_contains_arr[i].reserve(side_length / box_size);
+        for (int j = 0; j < box_size; j++) {
+            this->box_contains_arr[i][j].assign(side_length + 1, false);
+            int a = 0;
+        }
     }
 
     // Hardcoding a sodoku for testing purposes now. 
@@ -43,6 +56,8 @@ Sodoku::Sodoku(int side_length, int box_size)
     sodoku[6] = {5,0,0, 1,0,0, 0,4,6};
     sodoku[7] = {7,0,4, 0,6,2, 0,0,0};
     sodoku[8] = {1,0,0, 4,9,0, 0,8,0};
+
+    this->establish_initial_contains();
 }
 
 Sodoku::~Sodoku()
@@ -85,4 +100,28 @@ std::vector<int> Sodoku::get_nums_in_box(int row, int col) {
         }
     }
     return out;
+}
+
+void Sodoku::establish_initial_contains(void) {
+    for (int i = 0; i < this->side_length; i++) {
+        for (int j = 0; j < this->side_length; j++) {
+            int curr = this->get_cell(i, j);
+            this->row_contains_arr[i][curr] = true;
+            this->col_contains_arr[j][curr] = true;
+            this->box_contains_arr[i / this->box_size][j / box_size][curr] = true;
+        }
+    }
+}
+
+bool Sodoku::row_contains(int row, int val) {
+    return this->row_contains_arr[row][val];
+}
+
+bool Sodoku::col_contains(int col, int val) {
+    return this->col_contains_arr[col][val];
+}
+
+// row and col are box indices, typically 0-2 in a normal sodoku
+bool Sodoku::box_contains(int row, int col, int val) {
+    return this->box_contains_arr[row][col][val];
 }

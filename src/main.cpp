@@ -35,5 +35,28 @@ int main() {
         std::cout << box_test[i];
     }
     std::cout << "\n";
+
+    // verification of boolean contains function
+    if (s.row_contains(0, 8)) {
+        std::cout << "row 0 contains 8\n";
+    } else {
+        std::cout << "Error row_contains\n";
+    }
+    if (!s.row_contains(2, 5)) {
+        std::cout << "row 2 does not contain 5\n";
+    } else {
+        std::cout << "Error col_contains\n";
+    }
+    if (s.box_contains(1, 1, 9)) {
+        std::cout << "Box (1, 1) contains 9\n";
+    } else {
+        std::cout << "Error box contains\n";
+    }
+    if (!s.box_contains(1, 1, 7)) {
+        std::cout << "Box (1, 1) does not contain 7\n";
+    } else {
+        std::cout << "ERROR box contains\n";
+    }
+
     return 0;
 }
