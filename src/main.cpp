@@ -80,36 +80,59 @@ void brute_force_solve(Sodoku sodoku) {
 
     int i = 0; 
     int j = 0;
-    while (i < sodoku.get_side_len()) {
-        while (j < sodoku.get_side_len()) {
-            int current = sodoku.get_cell(i, j);
-            
-            if (current > 0) {
+    while (1) {
+        if (sodoku.is_initial(i, j)) {
+            if (j < sodoku.get_side_len()) {
                 j++;
-                continue;
+            } else if (i < sodoku.get_side_len()) {
+                j = 0;
+                i++;
+            } else {
+                std::cout << "Brute solve failed"; 
+                return;
             }
+            continue;
+        }
+        
+        int current = sodoku.get_cell(i, j);
+        int prospective = current + 1;
 
-            int prospective = 1;
-            while (prospective <= sodoku.get_side_len() &&
-                   sodoku.row_contains(i, prospective) &&
-                   sodoku.col_contains(j, prospective) &&
-                   sodoku.box_contains(i / sodoku.get_box_side_len(), 
-                                       j / sodoku.get_box_side_len(), prospective)) {
-                prospective++;
+        while (prospective <= sodoku.get_side_len() &&
+                sodoku.row_contains(i, prospective) &&
+                sodoku.col_contains(j, prospective) &&
+                sodoku.box_contains(i / sodoku.get_box_side_len(), 
+                                    j / sodoku.get_box_side_len(), prospective)) {
+            prospective++;
+        }
+
+        if (prospective <= sodoku.get_side_len()) {
+            // set cell and increment
+            sodoku.set_cell(i, j, prospective);
+            if (j < sodoku.get_side_len()) {
+                j++;
+            } else if (i < sodoku.get_side_len()) {
+                j = 0;
+                i++;
             }
+        } else {
+            // Means going backwards
+            sodoku.set_cell(i, j, 0);
+            while (i > 0 &&
+                   j > 0 &&
+                   sodoku.is_initial(i, j)) {
 
-            if (prospective > sodoku.get_side_len()) {
                 if (j > 0) {
                     j--;
                 } else {
-
+                    j = sodoku.get_side_len() - 1;
+                    i--;
                 }
-
-                // sodoku.set_cell(i, j)
             }
 
-            j++;
+            if (i == 0 && j == 0 && prospective > sodoku.get_side_len()) {
+                std::cout << "Brute solve failed"; 
+                return;
+            }
         }
-        i++;
     }
 }
