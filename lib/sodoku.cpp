@@ -75,3 +75,14 @@ std::vector<int> Sodoku::get_col(int col) {
 int Sodoku::get_cell(int row, int col) {
     return this->sodoku[row][col];
 }
+
+std::vector<int> Sodoku::get_nums_in_box(int row, int col) {
+    std::vector<int> out;
+    out.reserve(this->side_length);
+    for (int i = 0; i < this->box_size; i++) {
+        for (int j = 0; j < this->box_size; j++) {
+            out.push_back(this->sodoku[row * this->box_size + i][col * this->box_size + j]);
+        }
+    }
+    return out;
+}
