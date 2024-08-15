@@ -5,6 +5,8 @@
 #include <iostream>
 #include "sodoku.hpp"
 
+void brute_force_solve(Sodoku sodoku);
+
 int main() {
     // Just testing of sodoku class atm
     Sodoku s(9, 3);
@@ -36,4 +38,15 @@ int main() {
     }
     std::cout << "\n";
     return 0;
+}
+
+void brute_force_solve(Sodoku sodoku) {
+
+    int i = 0; 
+    int j = 0;
+    while (j < sodoku.get_side_len() && i < sodoku.get_side_len()) {
+        std::vector curr_row = sodoku.get_row(i);
+        std::vector curr_col = sodoku.get_col(j);
+        std::vector curr_box = sodoku.get_nums_in_box(i / sodoku.get_box_side_len(), j / sodoku.get_box_side_len());
+    }
 }
