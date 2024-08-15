@@ -67,9 +67,36 @@ void brute_force_solve(Sodoku sodoku) {
 
     int i = 0; 
     int j = 0;
-    while (j < sodoku.get_side_len() && i < sodoku.get_side_len()) {
-        std::vector curr_row = sodoku.get_row(i);
-        std::vector curr_col = sodoku.get_col(j);
-        std::vector curr_box = sodoku.get_nums_in_box(i / sodoku.get_box_side_len(), j / sodoku.get_box_side_len());
+    while (i < sodoku.get_side_len()) {
+        while (j < sodoku.get_side_len()) {
+            int current = sodoku.get_cell(i, j);
+            
+            if (current > 0) {
+                j++;
+                continue;
+            }
+
+            int prospective = 1;
+            while (prospective <= sodoku.get_side_len() &&
+                   sodoku.row_contains(i, prospective) &&
+                   sodoku.col_contains(j, prospective) &&
+                   sodoku.box_contains(i / sodoku.get_box_side_len(), 
+                                       j / sodoku.get_box_side_len(), prospective)) {
+                prospective++;
+            }
+
+            if (prospective > sodoku.get_side_len()) {
+                if (j > 0) {
+                    j--;
+                } else {
+
+                }
+
+                // sodoku.set_cell(i, j)
+            }
+
+            j++;
+        }
+        i++;
     }
 }
