@@ -58,5 +58,18 @@ int main() {
         std::cout << "ERROR box contains\n";
     }
 
+    // Initial values check
+    if (s.is_initial(0, 1)) {
+        std::cout << "Square 0, 1 is initial\n";
+    } else {
+        std::cout << "ERROR in is_initial!\n";
+    }
+
+    if (!s.is_initial(0, 0)) {
+        std::cout << "Square 0, 0 is not initial\n";
+    } else {
+        std::cout << "ERROR in is_initial!\n";
+    }
+
     return 0;
 }
