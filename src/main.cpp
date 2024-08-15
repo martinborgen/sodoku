@@ -6,7 +6,23 @@
 #include "sodoku.hpp"
 
 int main() {
-    Sodoku s(81, 3);
-    printf("Hello World hehe!\nThis sodoku has a total of %d squares with boxes of %d squares", s.get_len(), s.get_box());
+    Sodoku s(9, 3);
+    
+
+    for (int i = 0; i < s.get_side_len(); i++) {
+        for (int j = 0; j < s.get_side_len(); j++) {
+            std::cout << s.get_cell(i, j);
+        }
+        std::cout << "\n";
+    }
+
+    std::cout << "\n";
+
+    std::vector<int> res;
+    res = s.get_col(2);
+
+    for (int i = 0; i < s.get_side_len(); i++) {
+        std::cout << res[i] << "\n";
+    }
     return 0;
 }
