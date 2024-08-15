@@ -31,10 +31,12 @@ Sodoku::Sodoku(int side_length, int box_size)
     this->sodoku.reserve(side_length);
     this->row_contains_arr.reserve(side_length);
     this->col_contains_arr.reserve(side_length);
+    this->initial_values.reserve(side_length);
     for (int i = 0; i < side_length; i++) {
         this->sodoku[i].reserve(side_length);
         this->row_contains_arr[i].assign(side_length + 1, false); // + 1 is so that index corresponds to values 1-9
         this->col_contains_arr[i].assign(side_length + 1, false);
+        this->initial_values[i].assign(side_length, false);
     }
 
     this->box_contains_arr.reserve(side_length / box_size);
@@ -58,6 +60,7 @@ Sodoku::Sodoku(int side_length, int box_size)
     sodoku[8] = {1,0,0, 4,9,0, 0,8,0};
 
     this->establish_initial_contains();
+    this->establish_initial_values();
 }
 
 Sodoku::~Sodoku()
@@ -91,6 +94,10 @@ int Sodoku::get_cell(int row, int col) {
     return this->sodoku[row][col];
 }
 
+void Sodoku::set_cell(int row, int col, int val) {
+    this->sodoku[row][col] = val;
+}
+
 std::vector<int> Sodoku::get_nums_in_box(int row, int col) {
     std::vector<int> out;
     out.reserve(this->side_length);
@@ -111,6 +118,21 @@ void Sodoku::establish_initial_contains(void) {
             this->box_contains_arr[i / this->box_size][j / box_size][curr] = true;
         }
     }
+}
+
+
+void Sodoku::establish_initial_values(void) {
+    for (int i = 0; i < this->side_length; i++) {
+        for (int j = 0; j < this->side_length; j++) {
+            if (this->get_cell(i, j) > 0) {
+                this->initial_values[i][j] = true;
+            }
+        }
+    }
+}
+
+bool Sodoku::is_initial(int row, int col) {
+    return this->initial_values[row][col];
 }
 
 bool Sodoku::row_contains(int row, int val) {
