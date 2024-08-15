@@ -47,5 +47,6 @@ _deps
 CMakeUserPresets.json
 
 /build
+/debug
 
 .vscode/
