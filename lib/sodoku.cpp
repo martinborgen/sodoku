@@ -1,5 +1,6 @@
 #include "sodoku.hpp"
 #include <vector>
+#include <cmath>
 
 // A sodoku for testing:
 // 0,5,0, 8,0,0, 0,0,0 
@@ -23,51 +24,29 @@
 // 7 8 4 5 6 2 3 1 9
 // 1 3 6 4 9 7 5 8 2
 
-Sodoku::Sodoku(int side_length, int box_size)
+Sodoku::Sodoku(std::vector<std::vector<int>>& initial)
 {
-    this->side_length = side_length;
-    this->box_size = box_size;
+    this->side_length = initial.size();
+    this->box_size = std::sqrt(this->side_length);
     this->solved_count = 0;
-    this->sodoku.reserve(side_length);
-    this->row_contains_arr.reserve(side_length + 1);
-    this->col_contains_arr.reserve(side_length + 1);
-    this->initial_values.reserve(side_length);
-    for (int i = 0; i < side_length; i++) {
-        this->sodoku[i].reserve(side_length);
-        this->row_contains_arr[i].assign(side_length + 1, false); // + 1 is so that index corresponds to values 1-9
-        this->col_contains_arr[i].assign(side_length + 1, false);
-        this->initial_values[i].assign(side_length, false);
+    this->sodoku = initial;
+    this->row_contains_arr.reserve(this->side_length + 1);
+    this->col_contains_arr.reserve(this->side_length + 1);
+    this->initial_values.reserve(this->side_length);
+    for (int i = 0; i < this->side_length; i++) {
+        this->row_contains_arr[i].assign(this->side_length + 1, false); // + 1 is so that index corresponds to values 1-9
+        this->col_contains_arr[i].assign(this->side_length + 1, false);
+        this->initial_values[i].assign(this->side_length, false);
     }
 
-    this->box_contains_arr.reserve(side_length / box_size);
-    for (int i = 0; i < box_size; i++) {
-        this->box_contains_arr[i].reserve(side_length / box_size);
-        for (int j = 0; j < box_size; j++) {
-            this->box_contains_arr[i][j].assign(side_length + 1, false);
+    this->box_contains_arr.reserve(this->side_length / this->box_size);
+    for (int i = 0; i < this->box_size; i++) {
+        this->box_contains_arr[i].reserve(this->side_length / this->box_size);
+        for (int j = 0; j < this->box_size; j++) {
+            this->box_contains_arr[i][j].assign(this->side_length + 1, false);
             int a = 0;
         }
     }
-
-    // Hardcoding a sodoku for testing purposes now. 
-    sodoku[0] = {0,5,0, 8,0,0, 0,0,0};
-    sodoku[1] = {0,0,7, 6,0,3, 0,0,0};
-    sodoku[2] = {2,0,0, 0,0,0, 9,0,0};
-    sodoku[3] = {0,0,2, 9,0,0, 0,3,5};
-    sodoku[4] = {0,0,0, 3,5,0, 4,0,0};
-    sodoku[5] = {3,6,0, 0,8,4, 0,0,7};
-    sodoku[6] = {5,0,0, 1,0,0, 0,4,6};
-    sodoku[7] = {7,0,4, 0,6,2, 0,0,0};
-    sodoku[8] = {1,0,0, 4,9,0, 0,8,0};
-
-    // sodoku[0] = {6, 5, 3, 8, 1, 9, 2, 7, 4};
-    // sodoku[1] = {4, 9, 7, 6, 2, 3, 8, 5, 1};
-    // sodoku[2] = {2, 1, 8, 7, 4, 5, 9, 6, 3};
-    // sodoku[3] = {8, 4, 2, 9, 7, 1, 6, 3, 5};
-    // sodoku[4] = {9, 7, 1, 3, 5, 6, 4, 2, 8};
-    // sodoku[5] = {3, 6, 5, 2, 8, 4, 1, 9, 7};
-    // sodoku[6] = {5, 2, 9, 1, 3, 8, 7, 4, 6};
-    // sodoku[7] = {7, 8, 4, 5, 6, 2, 3, 1, 9};
-    // sodoku[8] = {1, 3, 0, 0, 0, 0, 0, 0, 0};
 
     this->establish_initial_contains();
     this->establish_initial_values();

@@ -10,7 +10,16 @@ void print_sodoku(Sodoku& s);
 
 int main() {
     // Just testing of sodoku class atm
-    Sodoku s(9, 3);
+    std::vector<std::vector<int>> sodoku = {{0,5,0, 8,0,0, 0,0,0},
+                                            {0,0,7, 6,0,3, 0,0,0},
+                                            {2,0,0, 0,0,0, 9,0,0},
+                                            {0,0,2, 9,0,0, 0,3,5},
+                                            {0,0,0, 3,5,0, 4,0,0},
+                                            {3,6,0, 0,8,4, 0,0,7},
+                                            {5,0,0, 1,0,0, 0,4,6},
+                                            {7,0,4, 0,6,2, 0,0,0},
+                                            {1,0,0, 4,9,0, 0,8,0}};
+    Sodoku s(sodoku);
     
     // Verificating the print of dummy hardcoded sodoku
     for (int i = 0; i < s.get_side_len(); i++) {
@@ -82,6 +91,15 @@ int main() {
     }
 
     brute_force_solve(s);
+    
+    std::cout << "\n verificiation original is unchanged:\n";
+
+    for (int i = 0; i < sodoku.size(); i++) {
+        for (int j = 0; j < sodoku[0].size(); j++) {
+            std::cout << sodoku[i][j];
+        }
+        std::cout << "\n";
+    }
 
     return 0;
 }
