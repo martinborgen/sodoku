@@ -29,8 +29,8 @@ Sodoku::Sodoku(int side_length, int box_size)
     this->box_size = box_size;
     this->solved_count = 0;
     this->sodoku.reserve(side_length);
-    this->row_contains_arr.reserve(side_length);
-    this->col_contains_arr.reserve(side_length);
+    this->row_contains_arr.reserve(side_length + 1);
+    this->col_contains_arr.reserve(side_length + 1);
     this->initial_values.reserve(side_length);
     for (int i = 0; i < side_length; i++) {
         this->sodoku[i].reserve(side_length);
@@ -58,6 +58,16 @@ Sodoku::Sodoku(int side_length, int box_size)
     sodoku[6] = {5,0,0, 1,0,0, 0,4,6};
     sodoku[7] = {7,0,4, 0,6,2, 0,0,0};
     sodoku[8] = {1,0,0, 4,9,0, 0,8,0};
+
+    // sodoku[0] = {6, 5, 3, 8, 1, 9, 2, 7, 4};
+    // sodoku[1] = {4, 9, 7, 6, 2, 3, 8, 5, 1};
+    // sodoku[2] = {2, 1, 8, 7, 4, 5, 9, 6, 3};
+    // sodoku[3] = {8, 4, 2, 9, 7, 1, 6, 3, 5};
+    // sodoku[4] = {9, 7, 1, 3, 5, 6, 4, 2, 8};
+    // sodoku[5] = {3, 6, 5, 2, 8, 4, 1, 9, 7};
+    // sodoku[6] = {5, 2, 9, 1, 3, 8, 7, 4, 6};
+    // sodoku[7] = {7, 8, 4, 5, 6, 2, 3, 1, 9};
+    // sodoku[8] = {1, 3, 0, 0, 0, 0, 0, 0, 0};
 
     this->establish_initial_contains();
     this->establish_initial_values();
@@ -99,11 +109,18 @@ void Sodoku::set_cell(int row, int col, int val) {
         return;
     }
     
+    int old_val = this->get_cell(row, col);
     if (val > 0) {
         this->solved_count++;
+        this->row_contains_arr[row][val] = true;
+        this->col_contains_arr[col][val] = true;
+        this->box_contains_arr[row / this->box_size][col / this->box_size][val] = true;
     } else {
         this->solved_count--;
     }
+    this->row_contains_arr[row][old_val] = false;
+    this->col_contains_arr[col][old_val] = false;
+    this->box_contains_arr[row / this->box_size][col / this->box_size][old_val] = false;
     this->sodoku[row][col] = val;
 }
 
