@@ -5,6 +5,9 @@
 #include <iostream>
 #include "sodoku.hpp"
 
+void brute_force_solve(Sodoku& sodoku);
+void print_sodoku(Sodoku& s);
+
 int main() {
     // Just testing of sodoku class atm
     Sodoku s(9, 3);
@@ -73,10 +76,110 @@ int main() {
 
     // Verification of solved count
     if (s.get_solved_count() == 31) {
-        std::cout << "Solved is 31";
+        std::cout << "Solved is 31\n";
     } else {
         std::cout << "Error in solved count";
     }
 
+    brute_force_solve(s);
+
     return 0;
+}
+
+void brute_force_solve(Sodoku& sodoku) {
+
+    int i = 0; 
+    int j = 0;
+    int maxit = 1000000;
+    int it = 0;
+    while (it < maxit && sodoku.get_solved_count() < sodoku.get_side_len() * sodoku.get_side_len()) {
+        print_sodoku(sodoku);
+        if (sodoku.is_initial(i, j)) {
+            if (j < sodoku.get_side_len() - 1) {
+                j++;
+            } else if (i < sodoku.get_side_len() - 1) {
+                j = 0;
+                i++;
+            } else {
+                std::cout << "Brute solve failed\n"; 
+                return;
+            }
+            continue;
+        }
+        
+        int current = sodoku.get_cell(i, j);
+        int prospective = current + 1;
+
+        while (prospective <= sodoku.get_side_len() && (
+                sodoku.row_contains(i, prospective) ||
+                sodoku.col_contains(j, prospective) ||
+                sodoku.box_contains(i / sodoku.get_box_side_len(), 
+                                    j / sodoku.get_box_side_len(), prospective))) {
+            prospective++;
+        }
+
+        if (prospective <= sodoku.get_side_len()) {
+            // set cell and increment
+            sodoku.set_cell(i, j, prospective);
+            if (j < sodoku.get_side_len() - 1) {
+                j++;
+            } else if (i < sodoku.get_side_len() - 1) {
+                j = 0;
+                i++;
+            } else {
+                // means sucessful solve
+                std::cout << "\nSOLVED\n";
+                print_sodoku(sodoku);
+            }
+        } else {
+            // Means going backwards
+            sodoku.set_cell(i, j, 0);
+            if (j > 0) {
+                j--;
+            } else if (i > 0) {
+                j = sodoku.get_side_len() - 1;
+                i--;
+            }
+
+            while (i >= 0 &&
+                   j >= 0 &&
+                   sodoku.is_initial(i, j)) {
+
+                if (j > 0) {
+                    j--;
+                } else if (i > 0) {
+                    j = sodoku.get_side_len() - 1;
+                    i--;
+                }
+            }
+
+            if (i == 0 && j == 0 && sodoku.get_cell(i, j) > sodoku.get_side_len()) {
+                std::cout << "Brute solve failed\n"; 
+                return;
+            }
+        }
+        // it++;
+    }
+    if (it == maxit) {
+        std::cout << "hit maxit\n";
+    } else {
+        std::cout << "SOLVED!\n";
+        print_sodoku(sodoku);
+    }
+}
+
+void print_sodoku(Sodoku& s) {
+    for (int i = 0; i < s.get_side_len(); i++) {
+        for (int j = 0; j < s.get_side_len(); j++) {
+            std::cout << s.get_cell(i, j);
+            if (j % 3 == 2) {
+                std::cout << " ";
+            }
+        }
+        if (i % 3 == 2) {
+            std::cout << "\n";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
 }
