@@ -95,6 +95,10 @@ int Sodoku::get_cell(int row, int col) {
 }
 
 void Sodoku::set_cell(int row, int col, int val) {
+    if (this->is_initial(row, col)) {
+        return;
+    }
+    
     if (val > 0) {
         this->solved_count++;
     } else {
