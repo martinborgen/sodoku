@@ -71,5 +71,12 @@ int main() {
         std::cout << "ERROR in is_initial!\n";
     }
 
+    // Verification of solved count
+    if (s.get_solved_count() == 31) {
+        std::cout << "Solved is 31";
+    } else {
+        std::cout << "Error in solved count"
+    }
+
     return 0;
 }

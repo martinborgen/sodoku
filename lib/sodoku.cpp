@@ -27,7 +27,7 @@ Sodoku::Sodoku(int side_length, int box_size)
 {
     this->side_length = side_length;
     this->box_size = box_size;
-
+    this->solved_count = 0;
     this->sodoku.reserve(side_length);
     this->row_contains_arr.reserve(side_length);
     this->col_contains_arr.reserve(side_length);
@@ -95,6 +95,11 @@ int Sodoku::get_cell(int row, int col) {
 }
 
 void Sodoku::set_cell(int row, int col, int val) {
+    if (val > 0) {
+        this->solved_count++;
+    } else {
+        this->solved_count--;
+    }
     this->sodoku[row][col] = val;
 }
 
@@ -126,6 +131,7 @@ void Sodoku::establish_initial_values(void) {
         for (int j = 0; j < this->side_length; j++) {
             if (this->get_cell(i, j) > 0) {
                 this->initial_values[i][j] = true;
+                this->solved_count++;
             }
         }
     }
@@ -146,4 +152,8 @@ bool Sodoku::col_contains(int col, int val) {
 // row and col are box indices, typically 0-2 in a normal sodoku
 bool Sodoku::box_contains(int row, int col, int val) {
     return this->box_contains_arr[row][col][val];
+}
+
+int Sodoku::get_solved_count(void) {
+    return this->solved_count;
 }
