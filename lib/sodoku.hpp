@@ -9,6 +9,7 @@ class Sodoku
 private:
     int side_length;
     int box_size;
+    int solved_count;
     std::vector<std::vector<int>> sodoku;
     std::vector<std::vector<bool>> row_contains_arr;
     std::vector<std::vector<bool>> col_contains_arr;
@@ -25,6 +26,8 @@ public:
     std::vector<int> get_col(int col);
     int get_cell(int row, int col);
     void set_cell(int row, int col, int val);
+    int get_solved_count(void);
+
     std::vector<int> get_nums_in_box(int row, int col);
 
     bool row_contains(int row, int val);
