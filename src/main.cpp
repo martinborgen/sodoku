@@ -6,6 +6,7 @@
 #include "sodoku.hpp"
 
 void brute_force_solve(Sodoku sodoku);
+void print_sodoku(Sodoku s);
 
 int main() {
     // Just testing of sodoku class atm
@@ -80,6 +81,8 @@ int main() {
         std::cout << "Error in solved count";
     }
 
+    brute_force_solve(s);
+
     return 0;
 }
 
@@ -87,7 +90,9 @@ void brute_force_solve(Sodoku sodoku) {
 
     int i = 0; 
     int j = 0;
-    while (1) {
+    int maxit = 10000;
+    int it = 0;
+    while (it < maxit && sodoku.get_solved_count() < sodoku.get_side_len() * sodoku.get_side_len()) {
         if (sodoku.is_initial(i, j)) {
             if (j < sodoku.get_side_len()) {
                 j++;
@@ -141,5 +146,21 @@ void brute_force_solve(Sodoku sodoku) {
                 return;
             }
         }
+        it++;
+    }
+    if (it == maxit) {
+        std::cout << "hit maxit";
+    } else {
+        std::cout << "SOLVED!";
+        print_sodoku(sodoku);
+    }
+}
+
+void print_sodoku(Sodoku s) {
+    for (int i = 0; i < s.get_side_len(); i++) {
+        for (int j = 0; j < s.get_side_len(); j++) {
+            std::cout << s.get_cell(i, j);
+        }
+        std::cout << "\n";
     }
 }
