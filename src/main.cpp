@@ -119,7 +119,7 @@ void brute_force_solve(Sodoku& sodoku) {
     int maxit = 1000000;
     int it = 0;
     while (it < maxit && sodoku.get_solved_count() < sodoku.get_side_len() * sodoku.get_side_len()) {
-        print_sodoku(sodoku);
+        // print_sodoku(sodoku);
         if (sodoku.is_initial(i, j)) {
             if (j < sodoku.get_side_len() - 1) {
                 j++;
@@ -154,8 +154,8 @@ void brute_force_solve(Sodoku& sodoku) {
                 i++;
             } else {
                 // means sucessful solve
-                std::cout << "\nSOLVED\n";
-                print_sodoku(sodoku);
+                // std::cout << "\nSOLVED\n";
+                // print_sodoku(sodoku);
             }
         } else {
             // Means going backwards
@@ -184,12 +184,12 @@ void brute_force_solve(Sodoku& sodoku) {
                 return;
             }
         }
-        // it++;
+        it++;
     }
     if (it == maxit) {
         std::cout << "hit maxit\n";
     } else {
-        std::cout << "SOLVED!\n";
+        std::cout << "\nSOLVED!\nIterations: " << it << "\n";
         print_sodoku(sodoku);
     }
 }
