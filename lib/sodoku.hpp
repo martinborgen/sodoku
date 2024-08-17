@@ -1,12 +1,17 @@
-#include <vector>
+// Sodoku class that provides data storage and access methods suitable for
+// sodoku-solvers
+
+// Martin Borgén
+// August 2024
+
 #include <cstdint>
+#include <vector>
 
 #ifndef _SODOKU_CLASS_HEADER_H
 #define _SODOKU_CLASS_HEADER_H
 
-class Sodoku
-{
-private:
+class Sodoku {
+   private:
     int side_length;
     int box_size;
     int solved_count;
@@ -17,7 +22,8 @@ private:
     std::vector<std::vector<bool>> initial_values;
     void establish_initial_contains(void);
     void establish_initial_values(void);
-public:
+
+   public:
     Sodoku(int side_len, int box_len);
     ~Sodoku();
     Sodoku& operator=(std::vector<std::vector<int>>& initial);
@@ -40,4 +46,4 @@ public:
     bool is_initial(int row, int col);
 };
 
-#endif // _SODOKU_CLASS_HEADER_H
+#endif  // _SODOKU_CLASS_HEADER_H

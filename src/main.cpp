@@ -1,5 +1,5 @@
 // Sodoku solver program project
-// Martin Borgén 
+// Martin Borgén
 // 2024-08-14
 
 #include <iostream>
@@ -10,6 +10,7 @@ void print_sodoku(Sodoku& s);
 
 int main() {
     // Vector to be sent to the sodoku class
+    // clang-format off
     std::vector<std::vector<int>> sodoku = {{0,5,0, 8,0,0, 0,0,0},
                                             {0,0,7, 6,0,3, 0,0,0},
                                             {2,0,0, 0,0,0, 9,0,0},
@@ -19,7 +20,7 @@ int main() {
                                             {5,0,0, 1,0,0, 0,4,6},
                                             {7,0,4, 0,6,2, 0,0,0},
                                             {1,0,0, 4,9,0, 0,8,0}};
-    
+    // clang-format on
     Sodoku s(9, 3);
     s = sodoku;
     print_sodoku(s);
@@ -30,13 +31,13 @@ int main() {
 }
 
 void brute_force_solve(Sodoku& sodoku) {
-
-    int i = 0; 
+    int i = 0;
     int j = 0;
     int maxit = 1000000;
     int it = 0;
-    while (it < maxit && sodoku.get_solved_count() < sodoku.get_side_len() * sodoku.get_side_len()) {
-        // print_sodoku(sodoku);
+    while (it < maxit && sodoku.get_solved_count() <
+                             sodoku.get_side_len() * sodoku.get_side_len()) {
+        // print_sodoku(sodoku); // But what the hell?
         if (sodoku.is_initial(i, j)) {
             if (j < sodoku.get_side_len() - 1) {
                 j++;
@@ -44,20 +45,21 @@ void brute_force_solve(Sodoku& sodoku) {
                 j = 0;
                 i++;
             } else {
-                std::cout << "Brute solve failed\n"; 
+                std::cout << "Brute solve failed\n";
                 return;
             }
             continue;
         }
-        
+
         int current = sodoku.get_cell(i, j);
         int prospective = current + 1;
 
-        while (prospective <= sodoku.get_side_len() && (
-                sodoku.row_contains(i, prospective) ||
-                sodoku.col_contains(j, prospective) ||
-                sodoku.box_contains(i / sodoku.get_box_side_len(), 
-                                    j / sodoku.get_box_side_len(), prospective))) {
+        while (
+            prospective <= sodoku.get_side_len() &&
+            (sodoku.row_contains(i, prospective) ||
+             sodoku.col_contains(j, prospective) ||
+             sodoku.box_contains(i / sodoku.get_box_side_len(),
+                                 j / sodoku.get_box_side_len(), prospective))) {
             prospective++;
         }
 
@@ -81,10 +83,7 @@ void brute_force_solve(Sodoku& sodoku) {
                 i--;
             }
 
-            while (i >= 0 &&
-                   j >= 0 &&
-                   sodoku.is_initial(i, j)) {
-
+            while (i >= 0 && j >= 0 && sodoku.is_initial(i, j)) {
                 if (j > 0) {
                     j--;
                 } else if (i > 0) {
@@ -93,8 +92,9 @@ void brute_force_solve(Sodoku& sodoku) {
                 }
             }
 
-            if (i == 0 && j == 0 && sodoku.get_cell(i, j) > sodoku.get_side_len()) {
-                std::cout << "Brute solve failed\n"; 
+            if (i == 0 && j == 0 &&
+                sodoku.get_cell(i, j) > sodoku.get_side_len()) {
+                std::cout << "Brute solve failed\n";
                 return;
             }
         }
