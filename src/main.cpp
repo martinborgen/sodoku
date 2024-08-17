@@ -20,7 +20,6 @@ int main() {
                                             {7,0,4, 0,6,2, 0,0,0},
                                             {1,0,0, 4,9,0, 0,8,0}};
     
-    // Creating empty sodoku, then examining behaviour
     Sodoku s(9, 3);
     s = sodoku;
     print_sodoku(s);
@@ -70,11 +69,8 @@ void brute_force_solve(Sodoku& sodoku) {
             } else if (i < sodoku.get_side_len() - 1) {
                 j = 0;
                 i++;
-            } else {
-                // means sucessful solve
-                // std::cout << "\nSOLVED\n";
-                // print_sodoku(sodoku);
             }
+
         } else {
             // Means going backwards
             sodoku.set_cell(i, j, 0);
