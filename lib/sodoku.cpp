@@ -24,7 +24,33 @@
 // 7 8 4 5 6 2 3 1 9
 // 1 3 6 4 9 7 5 8 2
 
-Sodoku::Sodoku(std::vector<std::vector<int>>& initial)
+
+Sodoku::Sodoku(int side_len, int box_len)
+{
+    this->side_length = side_len;
+    this->box_size = box_len;
+    this->solved_count = 0;
+    this->sodoku.assign(this->side_length, std::vector<int>(this->side_length, 0));
+    this->row_contains_arr.reserve(this->side_length + 1);
+    this->col_contains_arr.reserve(this->side_length + 1);
+    this->initial_values.reserve(this->side_length);
+    for (int i = 0; i < this->side_length; i++) {
+        this->row_contains_arr[i].assign(this->side_length + 1, false); // + 1 is so that index corresponds to values 1-9
+        this->col_contains_arr[i].assign(this->side_length + 1, false);
+        this->initial_values[i].assign(this->side_length, false);
+    }
+
+    this->box_contains_arr.reserve(this->side_length / this->box_size);
+    for (int i = 0; i < this->box_size; i++) {
+        this->box_contains_arr[i].reserve(this->side_length / this->box_size);
+        for (int j = 0; j < this->box_size; j++) {
+            this->box_contains_arr[i][j].assign(this->side_length + 1, false);
+            int a = 0;
+        }
+    }
+}
+
+Sodoku& Sodoku::operator=(std::vector<std::vector<int>>& initial)
 {
     this->side_length = initial.size();
     this->box_size = std::sqrt(this->side_length);
@@ -50,6 +76,7 @@ Sodoku::Sodoku(std::vector<std::vector<int>>& initial)
 
     this->establish_initial_contains();
     this->establish_initial_values();
+    return *this;
 }
 
 Sodoku::~Sodoku()

@@ -18,8 +18,9 @@ private:
     void establish_initial_contains(void);
     void establish_initial_values(void);
 public:
-    Sodoku(std::vector<std::vector<int>>& initial);
+    Sodoku(int side_len, int box_len);
     ~Sodoku();
+    Sodoku& operator=(std::vector<std::vector<int>>& initial);
     int get_side_len();
     int get_box_side_len();
     std::vector<int> get_row(int row);

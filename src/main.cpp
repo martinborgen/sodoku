@@ -9,7 +9,7 @@ void brute_force_solve(Sodoku& sodoku);
 void print_sodoku(Sodoku& s);
 
 int main() {
-    // Just testing of sodoku class atm
+    // Vector to be sent to the sodoku class
     std::vector<std::vector<int>> sodoku = {{0,5,0, 8,0,0, 0,0,0},
                                             {0,0,7, 6,0,3, 0,0,0},
                                             {2,0,0, 0,0,0, 9,0,0},
@@ -19,9 +19,17 @@ int main() {
                                             {5,0,0, 1,0,0, 0,4,6},
                                             {7,0,4, 0,6,2, 0,0,0},
                                             {1,0,0, 4,9,0, 0,8,0}};
-    Sodoku s(sodoku);
     
-    // Verificating the print of dummy hardcoded sodoku
+    // Creating empty sodoku, then examining behaviour
+    Sodoku s(9, 3);
+    print_sodoku(s);
+    s.set_cell(0, 0, 9);
+    print_sodoku(s);
+    s = sodoku;
+
+    print_sodoku(s);
+    
+    // Verificating the print of sodoku
     for (int i = 0; i < s.get_side_len(); i++) {
         for (int j = 0; j < s.get_side_len(); j++) {
             std::cout << s.get_cell(i, j);
@@ -91,7 +99,7 @@ int main() {
     }
 
     brute_force_solve(s);
-    
+
     std::cout << "\n verificiation original is unchanged:\n";
 
     for (int i = 0; i < sodoku.size(); i++) {
