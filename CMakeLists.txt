@@ -12,11 +12,12 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/lib
         ${PROJECT_SOURCE_DIR}/src
 )
-
-file(GLOB all_SRCS
+        
+        file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/lib/*.hpp"
         "${PROJECT_SOURCE_DIR}/lib/*.cpp"
         "${PROJECT_SOURCE_DIR}/src/*.cpp"
         )
-
+        
 add_executable(sodoku_solver ${all_SRCS})
+add_executable(Mytest ${PROJECT_SOURCE_DIR}/test/test.cpp ${PROJECT_SOURCE_DIR}/test/acutest.h ${PROJECT_SOURCE_DIR}/lib/sodoku.hpp ${PROJECT_SOURCE_DIR}/lib/sodoku.cpp)
