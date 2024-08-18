@@ -27,6 +27,11 @@ int main() {
 
     brute_force_solve(s);
 
+    if (s.verify_solution()) {
+        std::cout << "Solution verified\n";
+    } else {
+        std::cout << "Solution false\n";
+    }
     return 0;
 }
 
