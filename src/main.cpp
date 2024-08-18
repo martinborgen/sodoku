@@ -117,11 +117,11 @@ void print_sodoku(Sodoku& s) {
     for (int i = 0; i < s.get_side_len(); i++) {
         for (int j = 0; j < s.get_side_len(); j++) {
             std::cout << s.get_cell(i, j);
-            if (j % 3 == 2) {
+            if (j % s.get_box_side_len() == s.get_box_side_len() - 1) {
                 std::cout << " ";
             }
         }
-        if (i % 3 == 2) {
+        if (i % s.get_box_side_len() == s.get_box_side_len() - 1) {
             std::cout << "\n";
         }
         std::cout << "\n";
