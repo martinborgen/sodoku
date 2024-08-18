@@ -42,7 +42,7 @@ void brute_force_solve(Sodoku& sodoku) {
     int it = 0;
     while (it < maxit && sodoku.get_solved_count() <
                              sodoku.get_side_len() * sodoku.get_side_len()) {
-        // print_sodoku(sodoku); // But what the hell?
+        // print_sodoku(sodoku);
         if (sodoku.is_initial(i, j)) {
             if (j < sodoku.get_side_len() - 1) {
                 j++;
