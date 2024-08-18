@@ -149,6 +149,28 @@ void verify_solved_count() {
     TEST_MSG("Produced: %d", produced);
 }
 
+void verify_solution_checker() {
+    Sodoku s(9, 3);
+    // clang-format off
+    std::vector<std::vector<int>> v = {{6, 5, 3, 8, 1, 9, 2, 7, 4},
+                                       {4, 9, 7, 6, 2, 3, 8, 5, 1},
+                                       {2, 1, 8, 7, 4, 5, 9, 6, 3},
+                                       {8, 4, 2, 9, 7, 1, 6, 3, 5},
+                                       {9, 7, 1, 3, 5, 6, 4, 2, 8},
+                                       {3, 6, 5, 2, 8, 4, 1, 9, 7},
+                                       {5, 2, 9, 1, 3, 8, 7, 4, 6},
+                                       {7, 8, 4, 5, 6, 2, 3, 1, 9},
+                                       {1, 3, 6, 4, 9, 7, 5, 8, 0}};
+    // clang-format on'
+    s = v;
+    s.set_cell(8, 8, 2);
+    TEST_CHECK(s.verify_solution() == true);
+    s.set_cell(8, 8, 1);
+    TEST_CHECK(s.verify_solution() == false);
+    s.set_cell(8, 8, 0);
+    TEST_CHECK(s.verify_solution() == false);
+}
+
 TEST_LIST = {{"initialize sodoku", initialize_sodoku},
              {"verify original vector is unchanged",
               verify_original_vector_is_unchanged},
@@ -160,4 +182,5 @@ TEST_LIST = {{"initialize sodoku", initialize_sodoku},
              {"veryf boolean contains", verify_boolean_contains},
              {"initial values check", initial_values_check},
              {"verify solved count", verify_solved_count},
+             {"verify solution checker", verify_solution_checker},
              {NULL, NULL}};
