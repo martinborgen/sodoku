@@ -36,18 +36,41 @@ std::vector<std::vector<int>> _sodoku_vector = {{0,5,0, 8,0,0, 0,0,0},
                                                 {7,0,4, 0,6,2, 0,0,0},
                                                 {1,0,0, 4,9,0, 0,8,0}};
 // clang-format on
+
 void initialize_sodoku() {
-    // Creating empty sodoku
     Sodoku s(9, 3);
 
     for (int i = 0; i < 9; i++) {
         TEST_CHECK(s.get_row(i) == std::vector<int>(9, 0));
     }
+}
 
+void verify_initial_cell_status() {
+    Sodoku s(9, 3);
+    s = _sodoku_vector;
+
+    TEST_CHECK(s.is_initial(0, 0) == false);
+    TEST_CHECK(s.is_initial(0, 1) == true);
+}
+
+void verify_set_cell() {
+    Sodoku s(9, 3);
     s.set_cell(0, 0, 9);
-
     TEST_CHECK(s.get_cell(0, 0) == 9);
 
+    Sodoku s2(9, 3);
+    s2 = _sodoku_vector;
+
+    int expecetd = s2.get_cell(0, 1);
+    s2.set_cell(0, 1, 9);
+    int produced = s2.get_cell(0, 1);
+    TEST_CHECK(produced == expecetd);
+    TEST_MSG("Expected: %d, as cell is initial", expecetd);
+    TEST_MSG("Produced: %d", produced);
+}
+
+void verify_assignment_operator() {
+    Sodoku s(9, 3);
     s = _sodoku_vector;
 
     for (int i = 0; i < s.get_side_len(); i++) {
@@ -129,6 +152,9 @@ void verify_solved_count() {
 TEST_LIST = {{"initialize sodoku", initialize_sodoku},
              {"verify original vector is unchanged",
               verify_original_vector_is_unchanged},
+             {"verify cell's initial status", verify_initial_cell_status},
+             {"verify set cell", verify_set_cell},
+             {"verify assignment operator", verify_assignment_operator},
              {"verify col access", verify_column_access},
              {"verify box access", verify_box_access},
              {"veryf boolean contains", verify_boolean_contains},
