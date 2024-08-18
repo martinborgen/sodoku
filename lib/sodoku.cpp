@@ -153,3 +153,48 @@ bool Sodoku::box_contains(int row, int col, int val) {
 int Sodoku::get_solved_count(void) {
     return this->solved_count;
 }
+
+bool Sodoku::verify_nums(std::vector<int> nums) {
+    std::vector<int> buckets(nums.size() + 1, 0);
+
+    for (int i = 0; i < nums.size(); i++) {
+        buckets[nums[i]]++;
+    }
+
+    if (buckets[0] > 0) {
+        return false;
+    }
+
+    for (int i = 1; i < buckets.size(); i++) {
+        if (buckets[i] != 1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Sodoku::verify_solution(void) {
+    // buckets will be used to count the numbers in rows, columns and boxes.
+    for (int row = 0; row < this->side_length; row++) {
+        if (!this->verify_nums(this->get_row(row))) {
+            return false;
+        }
+    }
+
+    // check the columns
+    for (int col = 0; col < this->side_length; col++) {
+        if (!this->verify_nums(this->get_col(col))) {
+            return false;
+        }
+    }
+
+    // check the boxes
+    for (int count = 0; count < this->side_length; count++) {
+        int i = count / this->box_size;
+        int j = count % this->box_size;
+        if (!this->verify_nums(this->get_nums_in_box(i, j))) {
+            return false;
+        }
+    }
+    return true;
+}

@@ -22,6 +22,7 @@ class Sodoku {
     std::vector<std::vector<bool>> initial_values;
     void establish_initial_contains(void);
     void establish_initial_values(void);
+    bool verify_nums(std::vector<int> nums);
 
    public:
     // creates an emtpy sodoku. A typical sodoku has side len 9 and box len 3
@@ -71,6 +72,9 @@ class Sodoku {
 
     // Returns if a cell is an initial clue or not.
     bool is_initial(int row, int col);
+
+    // Returns whether the solution is legal or not.
+    bool verify_solution();
 };
 
 #endif  // _SODOKU_CLASS_HEADER_H
