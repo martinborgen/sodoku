@@ -10,4 +10,7 @@ in a professional setting.
 
 The first part is to make a Sodoku -class that provides useful functionality for 
 a sodoku solving program. Secondly, a sodoku solving algorithm is implemented, 
-at time of writing a brute-force depth-first search because of its simplicity.  
+at time of writing a brute-force depth-first search because of its simplicity.
+
+A solver is purposefully not included in the sodoku class, as typicall thats the 
+problem for the user to solve :)
