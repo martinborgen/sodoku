@@ -58,6 +58,11 @@ void verify_set_cell() {
     s.set_cell(0, 0, 9);
     TEST_CHECK(s.get_cell(0, 0) == 9);
 
+    s.set_cell(0, 1, 11);
+    TEST_CHECK(s.get_cell(0, 1) == 0);
+    TEST_MSG("Expected: %d", 0);
+    TEST_MSG("Produced: %d", s.get_cell(0, 1));
+
     Sodoku s2(9, 3);
     s2 = _sodoku_vector;
 
@@ -75,7 +80,13 @@ void verify_assignment_operator() {
 
     for (int i = 0; i < s.get_side_len(); i++) {
         TEST_CHECK(s.get_row(i) == _sodoku_vector[i]);
+        TEST_MSG("Row vectors does not match");
     }
+
+    Sodoku s2(4, 2);
+    s2 = _sodoku_vector;
+    TEST_CHECK(s2.get_row(0).size() == 4);
+    TEST_CHECK(s2.get_col(0).size() == 4);
 }
 
 void verify_original_vector_is_unchanged() {

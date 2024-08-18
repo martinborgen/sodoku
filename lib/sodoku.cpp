@@ -28,16 +28,31 @@ Sodoku::Sodoku(int side_len, int box_len) {
 }
 
 Sodoku& Sodoku::operator=(std::vector<std::vector<int>>& initial) {
-    this->side_length = initial.size();
-    this->box_side_length = std::sqrt(this->side_length);
     this->solved_count = 0;
-    this->sodoku = initial;
+    this->initial_values.assign(this->side_length,
+                                std::vector<bool>(this->side_length, false));
+
+    this->sodoku.assign(this->side_length,
+                        std::vector<int>(this->side_length, 0));
+
+    for (int i = 0; i < initial.size(); i++) {
+        if (i >= this->side_length) {
+            break;
+        }
+        for (int j = 0; j < initial[i].size(); j++) {
+            if (j >= this->side_length || initial[i][j] == 0 ||
+                initial[i][j] > this->side_length) {
+                continue;
+            }
+
+            this->sodoku[i][j] = initial[i][j];
+        }
+    }
+
     this->row_contains_vec.assign(
         this->side_length, std::vector<bool>(this->side_length + 1, false));
     this->col_contains_vec.assign(
         this->side_length, std::vector<bool>(this->side_length + 1, false));
-    this->initial_values.assign(this->side_length,
-                                std::vector<bool>(this->side_length, false));
     this->box_contains_vec.assign(
         this->side_length / this->box_side_length,
         std::vector<std::vector<bool>>(
@@ -77,7 +92,7 @@ int Sodoku::get_cell(int row, int col) {
 }
 
 void Sodoku::set_cell(int row, int col, int val) {
-    if (this->is_initial(row, col)) {
+    if (this->is_initial(row, col) || val > this->side_length) {
         return;
     }
 
