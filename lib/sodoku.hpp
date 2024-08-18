@@ -4,7 +4,6 @@
 // Martin Borgén
 // August 2024
 
-#include <cstdint>
 #include <vector>
 
 #ifndef _SODOKU_CLASS_HEADER_H
