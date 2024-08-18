@@ -13,15 +13,23 @@
 class Sodoku {
    private:
     int side_length;
-    int box_size;
+    int box_side_length;
     int solved_count;
     std::vector<std::vector<int>> sodoku;
-    std::vector<std::vector<bool>> row_contains_arr;
-    std::vector<std::vector<bool>> col_contains_arr;
-    std::vector<std::vector<std::vector<bool>>> box_contains_arr;
+    std::vector<std::vector<bool>> row_contains_vec;
+    std::vector<std::vector<bool>> col_contains_vec;
+    std::vector<std::vector<std::vector<bool>>> box_contains_vec;
     std::vector<std::vector<bool>> initial_values;
+
+    // Loops through the sodoku, adding the numbers to the contains
+    // array.
     void establish_initial_contains(void);
+
+    // Loops through the sodoku, adding all cells > 0 to the initial array
     void establish_initial_values(void);
+
+    // counts all numbers in nums, returns true if all numbers > 0 occurs
+    // exactly once, otherwise false. Also returns false if 0 occurs at all.
     bool verify_nums(std::vector<int> nums);
 
    public:
@@ -30,7 +38,9 @@ class Sodoku {
     ~Sodoku();
 
     // (re) assigns the sodoku to have the clues provided by the initial
-    // -vector. initial bust be of dimensions that the sodoku was created for.
+    // -vector. initial must be of dimensions that the sodoku was created for.
+    // All values > 0 in the initial vector will be unchangable except by a new
+    // assignment operator.
     Sodoku& operator=(std::vector<std::vector<int>>& initial);
 
     // returns the length of one side of the sodoku

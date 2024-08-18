@@ -10,38 +10,38 @@
 
 Sodoku::Sodoku(int side_len, int box_len) {
     this->side_length = side_len;
-    this->box_size = box_len;
+    this->box_side_length = box_len;
     this->solved_count = 0;
     this->sodoku.assign(this->side_length,
                         std::vector<int>(this->side_length, 0));
-    this->row_contains_arr.assign(this->side_length,
+    this->row_contains_vec.assign(this->side_length,
                                   std::vector<bool>(side_len + 1, false));
-    this->col_contains_arr.assign(this->side_length,
+    this->col_contains_vec.assign(this->side_length,
                                   std::vector<bool>(side_len + 1, false));
     this->initial_values.assign(this->side_length,
                                 std::vector<bool>(side_len, false));
-    this->box_contains_arr.assign(
-        this->side_length / this->box_size,
+    this->box_contains_vec.assign(
+        this->side_length / this->box_side_length,
         std::vector<std::vector<bool>>(
-            this->side_length / this->box_size,
+            this->side_length / this->box_side_length,
             std::vector<bool>(this->side_length + 1, false)));
 }
 
 Sodoku& Sodoku::operator=(std::vector<std::vector<int>>& initial) {
     this->side_length = initial.size();
-    this->box_size = std::sqrt(this->side_length);
+    this->box_side_length = std::sqrt(this->side_length);
     this->solved_count = 0;
     this->sodoku = initial;
-    this->row_contains_arr.assign(
+    this->row_contains_vec.assign(
         this->side_length, std::vector<bool>(this->side_length + 1, false));
-    this->col_contains_arr.assign(
+    this->col_contains_vec.assign(
         this->side_length, std::vector<bool>(this->side_length + 1, false));
     this->initial_values.assign(this->side_length,
                                 std::vector<bool>(this->side_length, false));
-    this->box_contains_arr.assign(
-        this->side_length / this->box_size,
+    this->box_contains_vec.assign(
+        this->side_length / this->box_side_length,
         std::vector<std::vector<bool>>(
-            this->side_length / this->box_size,
+            this->side_length / this->box_side_length,
             std::vector<bool>(this->side_length + 1, false)));
 
     this->establish_initial_contains();
@@ -52,7 +52,7 @@ Sodoku& Sodoku::operator=(std::vector<std::vector<int>>& initial) {
 Sodoku::~Sodoku() {}
 
 int Sodoku::get_box_side_len() {
-    return this->box_size;
+    return this->box_side_length;
 }
 
 int Sodoku::get_side_len() {
@@ -84,27 +84,27 @@ void Sodoku::set_cell(int row, int col, int val) {
     int old_val = this->get_cell(row, col);
     if (val > 0) {
         this->solved_count++;
-        this->row_contains_arr[row][val] = true;
-        this->col_contains_arr[col][val] = true;
-        this->box_contains_arr[row / this->box_size][col / this->box_size]
-                              [val] = true;
+        this->row_contains_vec[row][val] = true;
+        this->col_contains_vec[col][val] = true;
+        this->box_contains_vec[row / this->box_side_length]
+                              [col / this->box_side_length][val] = true;
     } else {
         this->solved_count--;
     }
-    this->row_contains_arr[row][old_val] = false;
-    this->col_contains_arr[col][old_val] = false;
-    this->box_contains_arr[row / this->box_size][col / this->box_size]
-                          [old_val] = false;
+    this->row_contains_vec[row][old_val] = false;
+    this->col_contains_vec[col][old_val] = false;
+    this->box_contains_vec[row / this->box_side_length]
+                          [col / this->box_side_length][old_val] = false;
     this->sodoku[row][col] = val;
 }
 
 std::vector<int> Sodoku::get_nums_in_box(int row, int col) {
     std::vector<int> out;
     out.reserve(this->side_length);
-    for (int i = 0; i < this->box_size; i++) {
-        for (int j = 0; j < this->box_size; j++) {
-            out.push_back(this->sodoku[row * this->box_size + i]
-                                      [col * this->box_size + j]);
+    for (int i = 0; i < this->box_side_length; i++) {
+        for (int j = 0; j < this->box_side_length; j++) {
+            out.push_back(this->sodoku[row * this->box_side_length + i]
+                                      [col * this->box_side_length + j]);
         }
     }
     return out;
@@ -114,10 +114,10 @@ void Sodoku::establish_initial_contains(void) {
     for (int i = 0; i < this->side_length; i++) {
         for (int j = 0; j < this->side_length; j++) {
             int curr = this->get_cell(i, j);
-            this->row_contains_arr[i][curr] = true;
-            this->col_contains_arr[j][curr] = true;
-            this->box_contains_arr[i / this->box_size][j / box_size][curr] =
-                true;
+            this->row_contains_vec[i][curr] = true;
+            this->col_contains_vec[j][curr] = true;
+            this->box_contains_vec[i / this->box_side_length]
+                                  [j / box_side_length][curr] = true;
         }
     }
 }
@@ -138,16 +138,16 @@ bool Sodoku::is_initial(int row, int col) {
 }
 
 bool Sodoku::row_contains(int row, int val) {
-    return this->row_contains_arr[row][val];
+    return this->row_contains_vec[row][val];
 }
 
 bool Sodoku::col_contains(int col, int val) {
-    return this->col_contains_arr[col][val];
+    return this->col_contains_vec[col][val];
 }
 
 // row and col are box indices, typically 0-2 in a normal sodoku
 bool Sodoku::box_contains(int row, int col, int val) {
-    return this->box_contains_arr[row][col][val];
+    return this->box_contains_vec[row][col][val];
 }
 
 int Sodoku::get_solved_count(void) {
@@ -190,8 +190,8 @@ bool Sodoku::verify_solution(void) {
 
     // check the boxes
     for (int count = 0; count < this->side_length; count++) {
-        int i = count / this->box_size;
-        int j = count % this->box_size;
+        int i = count / this->box_side_length;
+        int j = count % this->box_side_length;
         if (!this->verify_nums(this->get_nums_in_box(i, j))) {
             return false;
         }
