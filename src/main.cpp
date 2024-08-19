@@ -2,6 +2,7 @@
 // Martin Borgén
 // 2024-08-14
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -13,12 +14,19 @@ std::vector<std::vector<int>> read_sodoku_from_file(std::string filename);
 std::vector<std::vector<int>> read_sodoku_from_file(std::string filename,
                                                     int side_size);
 
-int main() {
+int main(int argc, char* argv[]) {
     // Vector to be sent to the sodoku class
-    std::vector<std::vector<int>> sodoku =
-        read_sodoku_from_file(std::string("../sample_sodokus/test1.txt"));
+    std::vector<std::vector<int>> sodoku;
+    if (argc > 1) {
+        sodoku = read_sodoku_from_file(std::string(argv[1]));
+    } else {
+        // This is temporary. Probably should print intented usage.
+        // std::cout << "Intended usage: sodoku_solver <filename to a txt>";
+        sodoku =
+            read_sodoku_from_file(std::string("../sample_sodokus/test1.txt"));
+    }
 
-    Sodoku s(9, 3);
+    Sodoku s(sodoku.size(), sqrt(sodoku.size()));
     s = sodoku;
     print_sodoku(s);
 
