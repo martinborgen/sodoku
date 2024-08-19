@@ -29,11 +29,18 @@ int main(int argc, char* argv[]) {
 
     int side_size = sodoku.size();
     if (side_size == 0) {
-        side_size = 9;
+        std::cout << "No sodoku opened\n";
+        return 0;
     }
 
     Sodoku s(side_size, sqrt(side_size));
     s = sodoku;
+
+    if (s.get_solved_count() == 0) {
+        std::cout << "No sodoku opened or too few clues\n";
+        return 0;
+    }
+
     print_sodoku(s);
 
     brute_force_solve(s);
@@ -152,6 +159,7 @@ std::vector<std::vector<int>> read_sodoku_from_file(std::string filename,
 
     if (!input_file.is_open()) {
         // Error. Throw exception?
+        std::cout << "Unable to find file: \"" << filename << "\n";
         return output;
     }
 
