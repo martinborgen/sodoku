@@ -2,25 +2,22 @@
 // Martin Borgén
 // 2024-08-14
 
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include "sodoku.hpp"
 
 void brute_force_solve(Sodoku& sodoku);
 void print_sodoku(Sodoku& s);
+std::vector<std::vector<int>> read_sodoku_from_file(std::string filename);
+std::vector<std::vector<int>> read_sodoku_from_file(std::string filename,
+                                                    int side_size);
 
 int main() {
     // Vector to be sent to the sodoku class
-    // clang-format off
-    std::vector<std::vector<int>> sodoku = {{0,5,0, 8,0,0, 0,0,0},
-                                            {0,0,7, 6,0,3, 0,0,0},
-                                            {2,0,0, 0,0,0, 9,0,0},
-                                            {0,0,2, 9,0,0, 0,3,5},
-                                            {0,0,0, 3,5,0, 4,0,0},
-                                            {3,6,0, 0,8,4, 0,0,7},
-                                            {5,0,0, 1,0,0, 0,4,6},
-                                            {7,0,4, 0,6,2, 0,0,0},
-                                            {1,0,0, 4,9,0, 0,8,0}};
-    // clang-format on
+    std::vector<std::vector<int>> sodoku =
+        read_sodoku_from_file(std::string("../sample_sodokus/test1.txt"));
+
     Sodoku s(9, 3);
     s = sodoku;
     print_sodoku(s);
@@ -127,4 +124,35 @@ void print_sodoku(Sodoku& s) {
         std::cout << "\n";
     }
     std::cout << "\n";
+}
+
+std::vector<std::vector<int>> read_sodoku_from_file(std::string filename) {
+    return read_sodoku_from_file(filename, 9);
+}
+
+std::vector<std::vector<int>> read_sodoku_from_file(std::string filename,
+                                                    int side_size) {
+    std::ifstream input_file(filename);
+    std::vector<std::vector<int>> output = std::vector<std::vector<int>>(
+        side_size, std::vector<int>(side_size, 0));
+
+    if (!input_file.is_open()) {
+        // Error. Throw exception?
+        return output;
+    }
+
+    std::string line;
+    std::vector<std::string> nums;
+    int i = 0;
+    while (getline(input_file, line)) {
+        std::istringstream iline(line);
+        std::string num;
+        int j = 0;
+        while (getline(iline, num, ',')) {
+            sscanf(num.c_str(), "%d", &output[i][j]);
+            j++;
+        }
+        i++;
+    }
+    return output;
 }
