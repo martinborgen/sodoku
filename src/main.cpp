@@ -15,16 +15,12 @@ std::vector<std::vector<int>> read_sodoku_from_file(std::string filename,
                                                     int side_size);
 
 int main(int argc, char* argv[]) {
-    // Vector to be sent to the sodoku class
     std::vector<std::vector<int>> sodoku;
     if (argc > 1) {
         sodoku = read_sodoku_from_file(std::string(argv[1]));
     } else {
-        // This is temporary. Probably should print intented usage.
         std::cout << "Intended usage: sodoku_solver <filename to a .txt>\n";
         return 0;
-        // sodoku =
-        //     read_sodoku_from_file(std::string("../sample_sodokus/test1.txt"));
     }
 
     int side_size = sodoku.size();
@@ -158,7 +154,6 @@ std::vector<std::vector<int>> read_sodoku_from_file(std::string filename,
         side_size, std::vector<int>(side_size, 0));
 
     if (!input_file.is_open()) {
-        // Error. Throw exception?
         std::cout << "Unable to find file: \"" << filename << "\n";
         return output;
     }
