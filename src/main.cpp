@@ -21,9 +21,9 @@ int main(int argc, char* argv[]) {
         sodoku = read_sodoku_from_file(std::string(argv[1]));
     } else {
         // This is temporary. Probably should print intented usage.
-        // std::cout << "Intended usage: sodoku_solver <filename to a txt>";
-        sodoku =
-            read_sodoku_from_file(std::string("../sample_sodokus/test1.txt"));
+        std::cout << "Intended usage: sodoku_solver <filename to a txt>";
+        // sodoku =
+        //     read_sodoku_from_file(std::string("../sample_sodokus/test1.txt"));
     }
 
     Sodoku s(sodoku.size(), sqrt(sodoku.size()));
