@@ -32,7 +32,7 @@ std::vector<std::vector<int>> initial_values = {{0,5,0, 8,0,0, 0,0,0},
                                                 {5,0,0, 1,0,0, 0,4,6},
                                                 {7,0,4, 0,6,2, 0,0,0},
                                                 {1,0,0, 4,9,0, 0,8,0}};
-Sodoku example_sodoku();
+Sodoku example_sodoku;
 example_sodoku = intial_values;
 ```
 
