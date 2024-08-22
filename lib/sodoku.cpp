@@ -8,6 +8,8 @@
 #include <cmath>
 #include <vector>
 
+Sodoku::Sodoku() : Sodoku::Sodoku(9, 3) {}
+
 Sodoku::Sodoku(int side_len, int box_len) {
     this->side_length = side_len;
     this->box_side_length = box_len;

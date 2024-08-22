@@ -43,6 +43,15 @@ void initialize_sodoku() {
     for (int i = 0; i < 9; i++) {
         TEST_CHECK(s.get_row(i) == std::vector<int>(9, 0));
     }
+
+    Sodoku s2;
+    for (int i = 0; i < 9; i++) {
+        TEST_CHECK(s2.get_row(i) == std::vector<int>(9, 0));
+    }
+
+    Sodoku s3(4, 2);
+    TEST_CHECK(s3.get_side_len() == 4);
+    TEST_CHECK(s3.get_box_side_len() == 2);
 }
 
 void verify_initial_cell_status() {

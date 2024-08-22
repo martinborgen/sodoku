@@ -17,7 +17,7 @@ problem for the user to solve :)
 
 ## Usage
 
-The sodoku class is intended to be initialized with a size, normally (9, 3) - at the moment there is no default, but this would be the default. 
+The sodoku class is intended to be initialized with a size, normally (9, 3) (this is the default overload)
 THe default is only a 2D matrix of zeroes. 
 
 Then a 2D vector of int can be passed to it with the assignment operator to se the initial values.
@@ -32,7 +32,7 @@ std::vector<std::vector<int>> initial_values = {{0,5,0, 8,0,0, 0,0,0},
                                                 {5,0,0, 1,0,0, 0,4,6},
                                                 {7,0,4, 0,6,2, 0,0,0},
                                                 {1,0,0, 4,9,0, 0,8,0}};
-Sodoku example_sodoku(9, 3);
+Sodoku example_sodoku();
 example_sodoku = intial_values;
 ```
 

@@ -32,7 +32,11 @@ class Sodoku {
     bool verify_nums(std::vector<int> nums);
 
    public:
-    // creates an emtpy sodoku. A typical sodoku has side len 9 and box len 3
+    // Creates empty sodoku with side length 9 and box length 3
+    Sodoku();
+    // creates an emtpy sodoku with arbitary size. A typical sodoku has side len
+    // 9 and box len 3. Typically sqrt(side_len) == box_len must be true for the
+    // general sodoku puzzle to work (irregular boxes not supported atm)
     Sodoku(int side_len, int box_len);
     ~Sodoku();
 
